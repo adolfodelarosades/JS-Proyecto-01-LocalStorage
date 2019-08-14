@@ -3,7 +3,35 @@
 const listaTweets = document.getElementById('lista-tweets');
 
 // FUNCIONES
-//Añadir tweet del formulario
+
+// Obtener Tweets del Local Storage
+function obtenerTweetsLocalStorage(){
+    let tweets;
+
+    //Revisamos los valores de Local Storage
+    if( localStorage.getItem('tweets') === null ){
+        tweets = [];
+    }else{
+        //JSON.parse convierte una cadena JSON ({"result":true, "count":42}) a un objeto.
+        tweets = JSON.parse(localStorage.getItem('tweets'));
+    }
+    return tweets;
+}
+
+// Agregar Tweets al Local Storage
+function agregarTweetLocalStorage(tweet){
+    let tweets;
+    tweets = obtenerTweetsLocalStorage();
+    
+    // Añadir el nuevo tweet
+    tweets.push(tweet);
+
+    //Convertir de arreglo a string para Local Storage (pq solo puede aceptar Strings)
+    //JSON.stringify() convierte un object JS o value a JSON string.
+    localStorage.setItem('tweets', JSON.stringify(tweets));
+}
+
+//Añadir Tweet
 function agregarTweet(event){
     // Detiene el action por default
     event.preventDefault(); 
@@ -25,6 +53,9 @@ function agregarTweet(event){
 
     //Añadir tweet a la lista (A pesar que se declaro con const)
     listaTweets.appendChild(li);
+
+    //Añadir a Local Storage
+    agregarTweetLocalStorage(tweet);
 }
 
 //Eliminar Tweet del listado

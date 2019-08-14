@@ -83,6 +83,30 @@ function borrarTweet(event){
     }
 }
 
+function localStorageInicializar(){
+    let tweets = obtenerTweetsLocalStorage();
+    console.log(tweets);
+    
+    //Recorre los 
+    tweets.forEach( function(tweet){
+        // Crear elemento li (tweet)
+        const li = document.createElement('li');
+        li.innerText = tweet;
+
+        // Crear botón eliminar
+        const botonBorrar = document.createElement('a');
+        botonBorrar.classList = 'borrar-tweet'; //Añadir clase (Se pudo usar .add()); Esta clase ya tiene CSS
+        botonBorrar.innerText = 'X'; //( Se pudo usar .textContent )
+
+        //Añadir botón eliminar al tweet
+        li.appendChild(botonBorrar);
+
+        //Añadir tweet a la lista (A pesar que se declaro con const)
+        listaTweets.appendChild(li);
+
+    });
+    
+}
 // Event Listeners
 function eventListeners(){
     //Listener del formulario cuando se envia.
@@ -90,6 +114,11 @@ function eventListeners(){
 
     //Lister de la lista de Tweets
     listaTweets.addEventListener('click', borrarTweet);
+
+    // Cargar Tweets en la lista, desde el Local Storage
+    //'DOMContentLoaded' se dispara cuando todo el DOM del index.html ha terminado de cargarse
+    //parecido al document.ready de JQuery
+    document.addEventListener('DOMContentLoaded', localStorageInicializar);
 }
 
 eventListeners();
